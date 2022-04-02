@@ -1,7 +1,9 @@
 import os
 import time
+from collections import OrderedDict
 import subprocess
 import string
+import sys
 dir = "/home/cbs/"
 
 def fileops(vol_name):
@@ -9,18 +11,15 @@ def fileops(vol_name):
     chp = os.system('sudo chmod 777 -R '+dir+vol_name)
     chd = os.chdir(dir+vol_name)
     chd1=os.getcwd()
-    print(chd1)
     rundd=os.system('sudo dd if=/dev/zero of='+dir+vol_name+'"/" file-1113 bs=1024 count=1024 2>&1')
     print('sudo dd if=/dev/zero of='+dir+vol_name+'"/" file-1113 bs=1024 count=1024 2>&1')
     if(rundd == 0):
         print("dd command Ran successful on ",vol_name)
-
     runfio=os.system("sudo fio --direct=1 --ioengine=libaio --eta-newline=1 --fallocate=none --filename="+dir+vol_name+"/test-file-1.txt"+" --size=1MB --bs=1K --rw=randrw --time_based=0 --runtime=1 --iodepth=1 --numjobs=1 --name=sysqa-data --group_reporting=1")
     print("sudo fio --direct=1 --ioengine=libaio --eta-newline=1 --fallocate=none --filename="+dir+vol_name+"/test-file-1.txt"+" --size=1MB --bs=1K --rw=randrw --time_based=0 --runtime=1 --iodepth=1 --numjobs=1 --name=sysqa-data --group_reporting=1")
     if(runfio == 0):
         print("fio command Ran successful on ",vol_name)
     print("End fileops")
-
 
 def nfs_mount(vol_name,ip_add,protocol):
     print("Calling Mount function")
@@ -32,7 +31,6 @@ def nfs_mount(vol_name,ip_add,protocol):
             print("volume is not mounted")
             mountnfs = os.system('sudo mount -t nfs -o rw,soft,rsize=65536,wsize=65536,vers='+protocol+',tcp '+ip_add+':'+vol_name+' '+dir+vol_name)
             print("sudo mount -t nfs -o rw,hard,rsize=65536,wsize=65536,vers="+protocol+",tcp "+ip_add+":"+vol_name+" "+dir+vol_name)
-            print("mountnfs : ",mountnfs)
             if(mountnfs == 0):
                 print("Volume is now mounted")
             else:
@@ -45,10 +43,7 @@ def nfs_mount(vol_name,ip_add,protocol):
         chmod = os.chmod(dir+vol_name, 0o777)
         if(makedir == None):
             print("Directory Created successfully")
-                #retcode = subprocess.call(["/sbin/mount", "-t", "nfs", "10.193.224.169:" , dir+key])
-                #print("retcode:" ,retcode)
             mountnfs = os.system('sudo mount -t nfs -o rw,soft,rsize=65536,wsize=65536,vers='+protocol+',tcp '+ip_add+':'+vol_name+' '+dir+vol_name)
-            print("mountnfs : ",mountnfs)
             if(mountnfs == 0):
                 print("Volume is now mounted")
             else:
@@ -59,7 +54,6 @@ def nfs_mount(vol_name,ip_add,protocol):
 def nfs_umount(vol_name):
     print("in nfs unmount")
     chd = os.chdir(dir)
-    print(chd)
     ismount = os.path.ismount(dir+vol_name)
     if(ismount == False):
         print("volume is not mounted")
@@ -67,13 +61,11 @@ def nfs_umount(vol_name):
         print("Volume is already mounted, unmounting the volume",vol_name)
         umountnfs = os.system('sudo umount -f '+dir+vol_name+'')
         print('sudo umount -f '+dir+vol_name+'')
-        #print(umountnfs)
         if(umountnfs == 0):
             print("Volume is now un-mounted successfully")
         else:
             print("error un-mounting volume")
     remDir = os.rmdir(dir+vol_name)
-    print(remDir)
     if(remDir == None):
         print("Volume directory removed successfully",vol_name)
     else:
@@ -94,7 +86,6 @@ def smb_mount(vol_name,ip_add):
 
     except Exception as e:
         print(e)
-
 
 def smb_umount(vol_name):
     print("in smb umount")
@@ -123,11 +114,10 @@ def smb_get_drive(vol_name):
 
 def smb_file_ops(vol_name,net_bios):
     drive_name = smb_get_drive(vol_name)
-    print("Drive name is : ",drive_name)
     if (drive_name == False):
         print("Volume already unmounted. Cannot perform fileops")
     else:
-        os.system('net use Z: \\10.3.0.6\testapurv')
+        os.system('net use '+drive_name+'\\'+'\\'+net_bios+'\\'+vol_name)
         got_to_drive = os.system(drive_name)
         if(got_to_drive == 0):
             file_size = 5000
@@ -141,39 +131,55 @@ def smb_file_ops(vol_name,net_bios):
                     print("Error in fileops for ",file_name)
         else:
             print("Unable to got to drive : ",drive_name)
+
 def help():
-    print("Invalid mode parameter : Check parameters")
-    print("m -- Mount")
-    print("f -- Fileoperations")
-    print("u -- Unmount")
-    print("Example -- mfu,(test_apurv_nfs,10.193.224.169,nfsv3),(testapurv,10.3.0.6,smb)")
+    print("Invalid parameters : Please check parameters and try again.")
+    print("-v|--volume : volume name"+"\n"+"-ip : ip address"+"\n"+"-p|--protocol : protocol version"+"\n"+"-m|--mode : mode(m-mount,f-fileops,u-unmount)")
+    print("Example -- python3 <filename> -v <vol_name> -ip <ip> -p <protocol> -m <mode>")
+
+def get_params(args):
+    params = OrderedDict([('volume',""),('ip',""),('protocol',"")]) 
+    for index in range(1, len(args), 2):
+        arg = str(args[index]).strip().lower()
+        val = str(args[index + 1]).strip()
+        if arg in ('-v','--volume','-ip','--ip','-p','--protocol','-m','--mode'):
+            if arg in ('-v', '--volume'):
+                params['volume'] = val
+            if arg in ('-ip','--ip'):
+                params['ip'] = val
+            if arg in ('-p', '--protocol'):
+                params['protocol'] = val
+            if arg in ('-m', '--mode'):
+                mode = str(val)
+    main(mode,params)
 
 def main(mode,*params):
     for i in params:
-        if('nfs' in i[2]):
-            if("3" in i[2]):
+        if('nfs' in i['protocol']):
+            if("3" in i['protocol']):
                 vers = "3"
             else:
                 vers = "4.1"
             print("linux")
             if('m'in mode):
-                nfs_mount(i[0],i[1],vers)
+                nfs_mount(i['volume'],i['ip'],vers)
             if('f'in mode):
-                fileops(i[0])
+                fileops(i['volume'])
             if('u'in mode):
-                nfs_umount(i[0])
+                nfs_umount(i['volume'])
             else:
                 help()
         else:
             print("windows")
             if('m'in mode):
-                smb_mount(i[0],i[1])
+                smb_mount(i['volume'],i['ip'])
             if('f'in mode):
-                smb_fio(i[0],i[1],)
+                smb_file_ops(i['volume'],i['ip'])
             if('u' in mode):
-                smb_umount(i[0])
+                smb_umount(i['volume'])
             else:
                 help()
 
 if __name__ == "__main__":
-    main("mfu",("test_apurv_nfs","10.193.224.169","nfsv3"),("testapurv",10.3.0.6,"smb"))
+    a=sys.argv
+    get_params(a)
