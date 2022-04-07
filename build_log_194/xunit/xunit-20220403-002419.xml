@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Rp Single File Snapshot Restore" tests="31" errors="0" failures="0" skipped="0" time="21680.549">
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15796" name="TCASE-15796 :: Verify single file restore at original file location when file is already present" time="981.085">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15797" name="TCASE-15797 :: Verify single file restore at original file location when file is not present" time="812.016">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15804" name="TCASE-15804 :: Verify single file restore at alternate destination" time="874.665">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15805" name="TCASE-15805 :: Restore file from manually created snapshot" time="0.002">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15806" name="TCASE-15806 :: Restore same file from different snapshots- file version" time="1060.829">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15807" name="TCASE-15807 :: Verify restore with multiple files from same location-(Overwrite, without overwrite and alternate destination path)" time="1670.693">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15808" name="TCASE-15808 :: Verify restore with multiple files from different locations-(Overwrite, without overwrite and alternate destination location)" time="2024.635">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15809" name="TCASE-15809 :: Verify restore without destination in payload" time="0.002">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15810" name="TCASE-15810 :: Verify restore with mixed files (valid and invalid)" time="863.543">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15811" name="TCASE-15811 :: Verify file restore with different combinations in file name" time="678.629">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15815" name="TCASE-15815 :: Verify restore with duplicate files in payload" time="63.064">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15816" name="TCASE-15816 :: Verify restore multiple files with 1024 chars" time="1235.899">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15817" name="TCASE-15817 :: Verify restore single file with 1024 chars" time="869.254">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15818" name="TCASE-15818 :: Verify with list of files having different file types (.doc, .txt, .zip, .tar, *.dev)" time="1235.513">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15819" name="TCASE-15819 :: Validate file permissions." time="747.632">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15823" name="TCASE-15823 :: Restore of files which are softlinked and hardlinked" time="1500.143">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15824" name="TCASE-15824 :: Restore files from hourly / daily / weekly / monthly snapshot" time="3290.807">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15826" name="TCASE-15826 :: Invalid volumeID in the URL" time="77.053">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15827" name="TCASE-15827 :: Invalid snapshotId in the URL" time="66.522">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15828" name="TCASE-15828 :: Verify with empty list for files in payload" time="65.504">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15829" name="TCASE-15829 :: Verify with files count &gt; allowed" time="78.563">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15830" name="TCASE-15830 :: Verify with file size &gt; 1024 chars" time="563.974">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15831" name="TCASE-15831 :: Verify when files is missing from payload" time="66.343">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15832" name="TCASE-15832 :: Verify with invalid destination path" time="569.074">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15833" name="TCASE-15833 :: Verify with empty destination path" time="74.332">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15834" name="TCASE-15834 :: Restore a file present in root of Junction path e.g:- /file1" time="0.001">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15835" name="TCASE-15835 :: Restoring list of non-existing files" time="79.919">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15837" name="TCASE-15837 :: Delete snapshot when file restore is in progress" time="818.732">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-15839" name="TCASE-15839 :: Create manual snapshot when restore is in progress" time="814.402">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-16202" name="TCASE-16202 :: Restore a file with unicode chars" time="0.002">
+</testcase>
+<testcase classname="Rp Single File Snapshot Restore.Sfr.TCASE-16464" name="TCASE-16464 :: Try restore with SMB volume" time="497.295">
+</testcase>
+</testsuite>
